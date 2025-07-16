@@ -1,0 +1,50 @@
+from langchain.chat_models import init_chat_model
+from dotenv import load_dotenv
+from langgraph.graph import StateGraph
+from langgraph.constants import START, END
+
+from state import State
+
+
+class ToolIntegration:
+    __graph: StateGraph = None
+    __llm = None
+
+    def __init__(self):
+        load_dotenv()
+        self.__llm = init_chat_model('google_genai:gemini-2.0-flash')
+        self.__graph = None
+
+    def __chat_model(self, state: State) -> State:
+        return {'message': [self.__llm.invoke(state['message'])]}
+
+    def __build_graph(self):
+        builder = StateGraph(State)
+        builder.add_node('chatbot_node', self.__chat_model)
+        builder.add_edge(START, 'chatbot_node')
+        builder.add_edge('chatbot_node', END)
+        self.__graph = builder.compile()
+
+
+    @staticmethod
+    def __build_message(message: str):
+        return {"role": "user", "content": message}
+
+    def run(self):
+        if self.__graph is None:
+            self.__build_graph()
+
+        state = None;
+        while True:
+            in_message = input("Your Question\n");
+            if state is None:
+                state = {'message': [ToolIntegration.__build_message(in_message)]}
+            elif in_message.lower() in ['exit', 'quiet']:
+                break;
+            else:
+                state['message'].append(ToolIntegration.__build_message(in_message))
+
+            result = self.__graph.invoke(state)
+            print("Bot: ", result['message'][-1].content)
+
+
