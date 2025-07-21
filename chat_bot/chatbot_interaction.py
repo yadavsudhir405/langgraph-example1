@@ -8,7 +8,7 @@ class State(TypedDict):
     message: Annotated[list, add_messages]
 
 
-def run_tool_integration():
+def start_chatbot():
     load_dotenv()
     llm = init_chat_model('google_genai:gemini-2.0-flash')
 

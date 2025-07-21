@@ -37,10 +37,10 @@ class ToolIntegration:
         state = None;
         while True:
             in_message = input("Your Question\n");
-            if state is None:
-                state = {'message': [ToolIntegration.__build_message(in_message)]}
-            elif in_message.lower() in ['exit', 'quiet']:
+            if in_message in ['exit', 'quiet']:
                 break;
+            elif state is None:
+                state = {'message': [ToolIntegration.__build_message(in_message)]}
             else:
                 state['message'].append(ToolIntegration.__build_message(in_message))
 
