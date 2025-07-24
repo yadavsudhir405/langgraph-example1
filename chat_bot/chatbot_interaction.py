@@ -1,11 +1,9 @@
-from typing import TypedDict, Annotated
+from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 from langgraph.constants import START, END
-from langgraph.graph import add_messages, StateGraph
-from dotenv import load_dotenv
+from langgraph.graph import StateGraph
 
-class State(TypedDict):
-    message: Annotated[list, add_messages]
+from state import State
 
 
 def start_chatbot():
@@ -23,6 +21,7 @@ def start_chatbot():
     builder.add_edge('chat_model', END)
 
     graph = builder.compile()
+    # graph built
 
     state = None
 

@@ -6,7 +6,7 @@ from langgraph.constants import START, END
 from state import State
 
 
-class ToolIntegration:
+class ChatBot:
     __graph: StateGraph = None
     __llm = None
 
@@ -16,7 +16,7 @@ class ToolIntegration:
         self.__graph = None
 
     def __chat_model(self, state: State) -> State:
-        return {'message': [self.__llm.invoke(state['message'])]}
+        return {'messages': [self.__llm.invoke(state['messages'])]}
 
     def __build_graph(self):
         builder = StateGraph(State)
@@ -40,11 +40,11 @@ class ToolIntegration:
             if in_message in ['exit', 'quiet']:
                 break;
             elif state is None:
-                state = {'message': [ToolIntegration.__build_message(in_message)]}
+                state = {'messages': [ChatBot.__build_message(in_message)]}
             else:
-                state['message'].append(ToolIntegration.__build_message(in_message))
+                state['messages'].append(ChatBot.__build_message(in_message))
 
             result = self.__graph.invoke(state)
-            print("Bot: ", result['message'][-1].content)
+            print("Bot: ", result['messages'][-1].content)
 
 
