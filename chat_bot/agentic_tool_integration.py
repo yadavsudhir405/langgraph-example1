@@ -4,7 +4,7 @@ from langchain.tools import tool
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode, tools_condition
 
-from .util import build_message
+from .util import  build_message
 from .state import State
 
 
@@ -22,7 +22,7 @@ def get_stock_price(symbol: str) -> float:
     }.get(symbol, 0.0)
 
 
-class ToolIntegration:
+class AgenticTool:
     __llm_with_tools = None
     __graph = None
     __tools = [get_stock_price]
@@ -45,6 +45,7 @@ class ToolIntegration:
 
         graph_builder.add_edge(START, 'chatbot')
         graph_builder.add_conditional_edges('chatbot', tools_condition)
+        graph_builder.add_edge('tools', 'chatbot')
         graph_builder.add_edge('chatbot', END)
         self.__graph = graph_builder.compile()
 
