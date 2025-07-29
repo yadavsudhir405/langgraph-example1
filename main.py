@@ -1,7 +1,7 @@
-from chat_bot import AgenticTool, ToolIntegration
+from chat_bot import AgenticToolWithMemory, ToolIntegration, AgenticToolWithMemory
 from package_experiment import GREETING_MESSAGE
 
 if __name__ == "__main__":
    print(f"{GREETING_MESSAGE}")
-   AgenticTool().run()
+   AgenticToolWithMemory().run()
    # ToolIntegration().run()
