@@ -10,3 +10,4 @@ wheels/
 .venv
 *.xml
 *.iml
+.env
