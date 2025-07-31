@@ -32,6 +32,8 @@ the reliablity of autonomous agent.
  
 1. Agno (Lighweight & fast)
 2. Google ADK (Tight GCP integration & Multiagent)
+3. Crew AI
+4. Microsoft AutoGen (Tight Azure integration & Multiagent)
 
 Where as Langgraph provides more flexible framework to build highly customizable complex agents.
 
